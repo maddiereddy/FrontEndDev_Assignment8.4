@@ -1,0 +1,102 @@
+
+<h1 style="text-align: center; margin-top: 20px">ngModal Example</h1>
+<div style="text-align: center">
+    <input type="text" [(ngModel)]="testName" value="" placeholder="Enter a name">
+    <span [ngSwitch]="testName">
+        <p *ngSwitchCase="'Avnesh'">Hey Avnesh!</p>
+        <p *ngSwitchCase=""> </p>
+        <p *ngSwitchDefault>Hey Thanks!</p>
+    </span>
+</div>
+<br>
+<h1 style="text-align: center; margin-top: 20px">User Registration Form</h1>
+<div class="col-md-8 col-md-offset-2">
+    <form [formGroup]="signUpForm" novalidate (ngSubmit)="onSubmit()" style="padding: 20px; margin: 10px">
+        <div class="form-group">
+            <input type="text"
+               id="fullName"
+               class="form-control"
+               placeholder="Enter Name"
+               formControlName="fullName">
+            <span *ngIf="this.signUpForm.controls.fullName.invalid &&
+            (this.signUpForm.controls.fullName.dirty || this.signUpForm.controls.fullName.touched)">
+                Name is required
+            </span>
+            <input type="text"
+               id="userName"
+               class="form-control"
+               placeholder="Enter User Name"
+               formControlName="userName">
+            <span *ngIf="this.signUpForm.controls.userName.invalid &&
+            (this.signUpForm.controls.userName.dirty || this.signUpForm.controls.userName.touched)">
+                <p *ngIf="this.signUpForm.controls.userName.errors.required">User name is required</p>
+                <p *ngIf="this.signUpForm.controls.userName.hasError('invalidAlphaNumeric')">
+                    User name has to contain only alphanumeric characters </p>
+            </span>
+
+            <input type="email"
+               id="email"
+               class="form-control"
+               placeholder="Enter Email Address"
+               formControlName="email">
+            <span *ngIf="this.signUpForm.controls.email.invalid &&
+            (this.signUpForm.controls.email.dirty || this.signUpForm.controls.email.touched)">
+                <p *ngIf="this.signUpForm.controls.email.errors.required">Email is required</p>
+                <p *ngIf="this.signUpForm.controls.email.errors.pattern">Email is not in correct format</p>
+            </span>
+
+            <input type="tel"
+               id="mobile"
+               class="form-control"
+               placeholder="Enter Mobile Number in xxx-xxx-xxxx format"
+               formControlName="mobile"
+               maxlength="12" pattern="\d{3}[\-]\d{3}[\-]\d{4}">
+            <span *ngIf="this.signUpForm.controls.mobile.invalid &&
+            (this.signUpForm.controls.mobile.dirty || this.signUpForm.controls.mobile.touched)">
+                <p *ngIf="this.signUpForm.controls.mobile.errors.required">Mobile number is required</p>
+                <p *ngIf="this.signUpForm.controls.mobile.errors.pattern">Mobile number needs to be in the xxx-xxx-xxxx format</p>
+            </span>
+
+            <div formGroupName="passwordsGroup" class="form-group">
+                <input type="password"
+                   id="password"
+                   class="form-control"
+                   placeholder="Enter Password, 6 chars min with at least 1 number"
+                   formControlName="password">
+                <span *ngIf="this.signUpForm.controls.passwordsGroup.controls.password.invalid &&
+                    (this.signUpForm.controls.passwordsGroup.controls.password.dirty ||
+                    this.signUpForm.controls.passwordsGroup.controls.password.touched)">
+                    <p *ngIf="this.signUpForm.controls.passwordsGroup.controls.password.errors.required">
+                        Password is required</p>
+                    <p *ngIf="this.signUpForm.controls.passwordsGroup.controls.password.errors.minLength">
+                        Password number needs to have at least 6 characters</p>
+                    <p *ngIf="this.signUpForm.controls.passwordsGroup.controls.password.errors.pattern">
+                        Password number needs to have at least 1 number</p>
+                </span>
+
+                <input type="password"
+                   id="confirmPassword"
+                   class="form-control"
+                   placeholder="Re-enter Password"
+                   formControlName="confirmPassword">
+                <span *ngIf="this.signUpForm.controls.passwordsGroup.controls.confirmPassword.invalid &&
+                    (this.signUpForm.controls.passwordsGroup.controls.confirmPassword.dirty ||
+                    this.signUpForm.controls.passwordsGroup.controls.confirmPassword.touched)">
+                    <p *ngIf="this.signUpForm.controls.passwordsGroup.controls.confirmPassword.errors.required">
+                        Password is required</p>
+                    <p *ngIf="this.signUpForm.controls.passwordsGroup.controls.confirmPassword.hasError('minLength')">
+                        Password number needs to have at least 6 characters</p>
+                    <p *ngIf="this.signUpForm.controls.passwordsGroup.controls.confirmPassword.errors.pattern">
+                        Password number needs to have at least 1 number</p>
+                </span>
+            </div>
+            <span *ngIf="this.signUpForm.controls.passwordsGroup.invalid">
+                <p *ngIf="this.signUpForm.controls.passwordsGroup.hasError('mismatchedPasswords')">
+                    Password does not match</p>
+            </span>
+
+            <button class="btn btn-primary pull-right" type="submit" [disabled]="!signUpForm.valid">Submit</button>
+         </div>
+    </form>
+    <pre> {{ signUpForm.value | json }} </pre>
+</div>
